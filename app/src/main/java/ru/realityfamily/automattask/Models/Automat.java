@@ -45,7 +45,7 @@ public class Automat {
                         new WaterFabric()
                 ));
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 60; i++) {
             int randomFabricIndex = new Random().nextInt(fabrics.size());
 
             int innerCount = snackMenu.getOrDefault(fabrics.get(randomFabricIndex).generateProduct(), 0);

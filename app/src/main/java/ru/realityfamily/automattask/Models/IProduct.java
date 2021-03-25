@@ -1,5 +1,7 @@
 package ru.realityfamily.automattask.Models;
 
+import androidx.annotation.NonNull;
+
 import java.util.Comparator;
 
 public abstract class IProduct implements Comparable<IProduct> {
@@ -25,6 +27,12 @@ public abstract class IProduct implements Comparable<IProduct> {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name + "\t" + cost + " у.е.\n";
     }
 
     @Override

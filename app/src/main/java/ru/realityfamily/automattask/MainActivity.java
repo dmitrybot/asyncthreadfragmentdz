@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import ru.realityfamily.automattask.Models.Automat;
+import ru.realityfamily.automattask.Models.Student;
+
 public class MainActivity extends AppCompatActivity {
-    private MainActivity instance;
+    private static MainActivity instance;
 
     TextView autoName1;
     TextView autoName2;
@@ -80,7 +83,33 @@ public class MainActivity extends AppCompatActivity {
         autoQueue42 = findViewById(R.id.autoQueue42);
     }
 
-    public MainActivity getInstance() {
+    public void UpdateData(Automat automat, Student student) {
+        switch (automat.getName()){
+            case 1:
+                autoStatus1.setText(automat.getStatus().toString());
+                clientId1.setText(student.getName());
+                autoCart1.setText(student.getCart().toString());
+                autoQueue11.setText(student.CartCost() + " у.е.");
+                break;
+            case 2:
+                autoStatus2.setText(automat.getStatus().toString());
+                clientId2.setText(student.getName());
+                autoCart2.setText(student.getCart().toString());
+                break;
+            case 3:
+                autoStatus3.setText(automat.getStatus().toString());
+                clientId3.setText(student.getName());
+                autoCart3.setText(student.getCart().toString());
+                break;
+            case 4:
+                autoStatus4.setText(automat.getStatus().toString());
+                clientId4.setText(student.getName());
+                autoCart4.setText(student.getCart().toString());
+                break;
+        }
+    }
+
+    public static MainActivity getInstance() {
         return instance;
     }
 }

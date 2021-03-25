@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import ru.realityfamily.automattask.Models.Fabrics.AmericanoFabric;
 import ru.realityfamily.automattask.Models.Fabrics.CappuccinoFabric;
@@ -15,19 +16,19 @@ import ru.realityfamily.automattask.Models.Fabrics.TwixFabric;
 import ru.realityfamily.automattask.Models.Fabrics.WaterFabric;
 
 public class Automat {
-    enum AutomatStatus{
+    public enum AutomatStatus{
         Waiting,
         Client_Choosing,
         Client_Paying,
         Giving_Products
     }
 
-    private final String name;
+    private final int name;
     private AutomatStatus status;
     private TreeMap<IProduct, Integer> snackMenu;
 
     public Automat(int name) {
-        this.name = "Автомат №" + name;
+        this.name = name;
         this.status = AutomatStatus.Waiting;
         snackMenu = new TreeMap<>();
 
@@ -65,6 +66,10 @@ public class Automat {
         }
     }
 
+    public void GiveProducts() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+    }
+
     public AutomatStatus getStatus() {
         return status;
     }
@@ -73,7 +78,7 @@ public class Automat {
         this.status = status;
     }
 
-    public String getName() {
+    public int getName() {
         return name;
     }
 }

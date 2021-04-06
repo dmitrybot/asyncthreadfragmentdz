@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for(Student student : studentList) {
-            student.StartTask();
+            student.StartTask2();
         }
     }
 
@@ -124,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
                     clientId1.setText("");
                     autoCart1.setText("");
                     autoQueue11.setText("");
-                    autoQueue12.setText(CalculateQueue(1));
+                    //autoQueue12.setText(CalculateQueue(1));
                 } else {
                     autoStatus1.setText(automat.getStatus().toString());
                     clientId1.setText(student.getName());
                     autoCart1.setText(student.getCart().toString());
                     autoQueue11.setText("= " + student.CartCost() + " у.е.");
-                    autoQueue12.setText(CalculateQueue(1));
+                    //autoQueue12.setText(CalculateQueue(1));
                 }
                 break;
             case 2:
@@ -139,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
                     clientId2.setText("");
                     autoCart2.setText("");
                     autoQueue21.setText("");
-                    autoQueue22.setText(CalculateQueue(1));
+                    //autoQueue22.setText(CalculateQueue(1));
                 } else {
                     autoStatus2.setText(automat.getStatus().toString());
                     clientId2.setText(student.getName());
                     autoCart2.setText(student.getCart().toString());
                     autoQueue21.setText("= " + student.CartCost() + " у.е.");
-                    autoQueue22.setText(CalculateQueue(2));
+                    //autoQueue22.setText(CalculateQueue(2));
                 }
                 break;
             case 3:
@@ -154,13 +154,13 @@ public class MainActivity extends AppCompatActivity {
                     clientId3.setText("");
                     autoCart3.setText("");
                     autoQueue31.setText("");
-                    autoQueue32.setText(CalculateQueue(3));
+                    //autoQueue32.setText(CalculateQueue(3));
                 } else {
                     autoStatus3.setText(automat.getStatus().toString());
                     clientId3.setText(student.getName());
                     autoCart3.setText(student.getCart().toString());
                     autoQueue31.setText("= " + student.CartCost() + " у.е.");
-                    autoQueue32.setText(CalculateQueue(3));
+                    //autoQueue32.setText(CalculateQueue(3));
                     break;
                 }
             case 4:
@@ -169,25 +169,25 @@ public class MainActivity extends AppCompatActivity {
                     clientId4.setText("");
                     autoCart4.setText("");
                     autoQueue41.setText("");
-                    autoQueue42.setText(CalculateQueue(4));
+                    //autoQueue42.setText(CalculateQueue(4));
                 } else {
                     autoStatus4.setText(automat.getStatus().toString());
                     clientId4.setText(student.getName());
                     autoCart4.setText(student.getCart().toString());
                     autoQueue41.setText("= " + student.CartCost() + " у.е.");
-                    autoQueue42.setText(CalculateQueue(4));
+                    //autoQueue42.setText(CalculateQueue(4));
                 }
                 break;
         }
     }
-
+    /*
     public String CalculateQueue(int automatName) {
         int queue = 0;
         for (Student student : studentList) {
             if (student.getAutomatName() == automatName && student.getTaskStatus() == AsyncTask.Status.RUNNING) queue++;
         }
         return queue - 1 > 0 ? queue - 1 + " человек" : "Людей больше нет.";
-    }
+    }*/
 
     public static MainActivity getInstance() {
         return instance;

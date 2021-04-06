@@ -1,6 +1,11 @@
 package ru.realityfamily.automattask.Models;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,19 +14,31 @@ import java.util.concurrent.TimeUnit;
 import ru.realityfamily.automattask.MainActivity;
 
 public class Student {
+    private Handler handlerupdate;
     private final String name;
     private List<IProduct> cart = new ArrayList<>();
     private final int cartCount;
     private final Automat automat;
-
-    private StudentTask task;
+    private final Student st;
+    //private StudentTask task;
+    //private AnotherRunnable task2;
+    Thread thread;
 
     public Student(int name, int cartCount, Automat automat) {
         this.name = "Студент №" + name;
         this.cartCount = cartCount;
         this.automat = automat;
+        st = this;
+        //this.task = new StudentTask(automat, this);
+        this.thread=new Thread(new AnotherRunnable());
+        handlerupdate = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                MainActivity.getInstance().UpdateData(automat, st);
+            }
 
-        this.task = new StudentTask(automat, this);
+        };
     }
 
     public void ChooseProduct() throws InterruptedException {
@@ -45,10 +62,15 @@ public class Student {
     public void PayForCart() throws InterruptedException {
         TimeUnit.SECONDS.sleep(2);
     }
-
+    /*
     public void StartTask() {
         if (task == null) return;
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }*/
+
+    public void StartTask2() {
+        if (thread == null) return;
+        thread.start();
     }
 
     public String getName() {
@@ -62,12 +84,46 @@ public class Student {
     public int getAutomatName() {
         return automat.getName();
     }
-
+    /*
     public AsyncTask.Status getTaskStatus() {
         return task.getStatus();
     }
+    */
 
-    class StudentTask extends AsyncTask<Void, Void, Void> {
+    class AnotherRunnable implements Runnable {
+
+        public AnotherRunnable() {
+        }
+        @Override
+        public void run() {
+            synchronized (automat) {
+                publishProgress();
+                automat.setStatus(Automat.AutomatStatus.Client_Choosing);
+                publishProgress();
+                try {
+                    st.ChooseProduct();
+                    publishProgress();
+                    automat.setStatus(Automat.AutomatStatus.Client_Paying);
+                    publishProgress();
+                    st.PayForCart();
+                    automat.setStatus(Automat.AutomatStatus.Giving_Products);
+                    publishProgress();
+                    automat.GiveProducts();
+                    automat.setStatus(Automat.AutomatStatus.Waiting);
+                    publishProgress();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        public void publishProgress(){
+            Message message = new Message();
+            handlerupdate.sendMessage(message);
+        }
+    }
+    /*class StudentTask extends AsyncTask<Void, Void, Void> {
         final Automat automat;
         final Student student;
 
@@ -105,5 +161,5 @@ public class Student {
         protected void onProgressUpdate(Void... values) {
             MainActivity.getInstance().UpdateData(automat, student);
         }
-    }
+    }*/
 }

@@ -1,9 +1,13 @@
 package ru.realityfamily.automattask;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,85 +19,56 @@ import ru.realityfamily.automattask.Models.Student;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
-
+    MainFragment automatView1;
+    MainFragment automatView2;
+    MainFragment automatView3;
+    MainFragment automatView4;
+    FragmentTransaction ft;
+    boolean run = true;
     List<Automat> automatList = new ArrayList<>();
     List<Student> studentList = new ArrayList<>();
-
-    TextView autoName1;
-    TextView autoName2;
-    TextView autoName3;
-    TextView autoName4;
-
-    TextView autoStatus1;
-    TextView autoStatus2;
-    TextView autoStatus3;
-    TextView autoStatus4;
-
-    TextView clientId1;
-    TextView clientId2;
-    TextView clientId3;
-    TextView clientId4;
-
-    TextView autoCart1;
-    TextView autoCart2;
-    TextView autoCart3;
-    TextView autoCart4;
-
-    TextView autoQueue11;
-    TextView autoQueue12;
-
-    TextView autoQueue21;
-    TextView autoQueue22;
-
-    TextView autoQueue31;
-    TextView autoQueue32;
-
-    TextView autoQueue41;
-    TextView autoQueue42;
+    LinearLayout gor1, gor2, gor3, gor4, ver1, ver2;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        gor1 = findViewById(R.id.gor1);
+        gor2 = findViewById(R.id.gor2);
+        gor3 = findViewById(R.id.gor3);
+        gor4 = findViewById(R.id.gor4);
+        ver1 = findViewById(R.id.vert1);
+        ver2 = findViewById(R.id.vert2);
         instance = this;
+        FragmentManager fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
 
-        autoCart1 = findViewById(R.id.autoCart1);
-        autoCart2 = findViewById(R.id.autoCart2);
-        autoCart3 = findViewById(R.id.autoCart3);
-        autoCart4 = findViewById(R.id.autoCart4);
+        automatView1 = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("name", "Автомат №1");
+        automatView1.setArguments(bundle);
 
-        autoName1 = findViewById(R.id.autoName1);
-        autoName2 = findViewById(R.id.autoName2);
-        autoName3 = findViewById(R.id.autoName3);
-        autoName4 = findViewById(R.id.autoName4);
+        automatView2 = new MainFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putString("name", "Автомат №2");
+        automatView2.setArguments(bundle2);
 
-        autoStatus1 = findViewById(R.id.autoStatus1);
-        autoStatus2 = findViewById(R.id.autoStatus2);
-        autoStatus3 = findViewById(R.id.autoStatus3);
-        autoStatus4 = findViewById(R.id.autoStatus4);
+        automatView3 = new MainFragment();
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("name", "Автомат №3");
+        automatView3.setArguments(bundle3);
 
-        clientId1 = findViewById(R.id.clientId1);
-        clientId2 = findViewById(R.id.clientId2);
-        clientId3 = findViewById(R.id.clientId3);
-        clientId4 = findViewById(R.id.clientId4);
+        automatView4 = new MainFragment();
+        Bundle bundle4 = new Bundle();
+        bundle4.putString("name", "Автомат №4");
+        automatView4.setArguments(bundle4);
 
-        autoQueue11 = findViewById(R.id.autoQueue11);
-        autoQueue12 = findViewById(R.id.autoQueue12);
-
-        autoQueue21 = findViewById(R.id.autoQueue21);
-        autoQueue22 = findViewById(R.id.autoQueue22);
-
-        autoQueue31 = findViewById(R.id.autoQueue31);
-        autoQueue32 = findViewById(R.id.autoQueue32);
-
-        autoQueue41 = findViewById(R.id.autoQueue41);
-        autoQueue42 = findViewById(R.id.autoQueue42);
-
-        autoName1.setText("Автомат №1");
-        autoName2.setText("Автомат №2");
-        autoName3.setText("Автомат №3");
-        autoName4.setText("Автомат №4");
+        ft.add(R.id.Framelayout1, automatView1);
+        ft.add(R.id.Framelayout2, automatView2);
+        ft.add(R.id.Framelayout3, automatView3);
+        ft.add(R.id.Framelayout4, automatView4);
+        ft.commit();
 
         for (int i = 1; i < 5; i++) {
             automatList.add(
@@ -117,67 +92,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void UpdateData(Automat automat, Student student) {
-        switch (automat.getName()){
-            case 1:
-                if (automat.getStatus() == Automat.AutomatStatus.Waiting) {
-                    autoStatus1.setText(automat.getStatus().toString());
-                    clientId1.setText("");
-                    autoCart1.setText("");
-                    autoQueue11.setText("");
-                    //autoQueue12.setText(CalculateQueue(1));
-                } else {
-                    autoStatus1.setText(automat.getStatus().toString());
-                    clientId1.setText(student.getName());
-                    autoCart1.setText(student.getCart().toString());
-                    autoQueue11.setText("= " + student.CartCost() + " у.е.");
-                    //autoQueue12.setText(CalculateQueue(1));
-                }
-                break;
-            case 2:
-                if (automat.getStatus() == Automat.AutomatStatus.Waiting) {
-                    autoStatus2.setText(automat.getStatus().toString());
-                    clientId2.setText("");
-                    autoCart2.setText("");
-                    autoQueue21.setText("");
-                    //autoQueue22.setText(CalculateQueue(1));
-                } else {
-                    autoStatus2.setText(automat.getStatus().toString());
-                    clientId2.setText(student.getName());
-                    autoCart2.setText(student.getCart().toString());
-                    autoQueue21.setText("= " + student.CartCost() + " у.е.");
-                    //autoQueue22.setText(CalculateQueue(2));
-                }
-                break;
-            case 3:
-                if (automat.getStatus() == Automat.AutomatStatus.Waiting) {
-                    autoStatus3.setText(automat.getStatus().toString());
-                    clientId3.setText("");
-                    autoCart3.setText("");
-                    autoQueue31.setText("");
-                    //autoQueue32.setText(CalculateQueue(3));
-                } else {
-                    autoStatus3.setText(automat.getStatus().toString());
-                    clientId3.setText(student.getName());
-                    autoCart3.setText(student.getCart().toString());
-                    autoQueue31.setText("= " + student.CartCost() + " у.е.");
-                    //autoQueue32.setText(CalculateQueue(3));
+        if (run) {
+            switch (automat.getName()) {
+                case 1:
+                    automatView1.UpdateData(automat, student);
                     break;
-                }
-            case 4:
-                if (automat.getStatus() == Automat.AutomatStatus.Waiting) {
-                    autoStatus4.setText(automat.getStatus().toString());
-                    clientId4.setText("");
-                    autoCart4.setText("");
-                    autoQueue41.setText("");
-                    //autoQueue42.setText(CalculateQueue(4));
-                } else {
-                    autoStatus4.setText(automat.getStatus().toString());
-                    clientId4.setText(student.getName());
-                    autoCart4.setText(student.getCart().toString());
-                    autoQueue41.setText("= " + student.CartCost() + " у.е.");
-                    //autoQueue42.setText(CalculateQueue(4));
-                }
-                break;
+                case 2:
+                    automatView2.UpdateData(automat, student);
+                    break;
+                case 3:
+                    automatView3.UpdateData(automat, student);
+                    break;
+                case 4:
+                    automatView4.UpdateData(automat, student);
+                    break;
+            }
         }
     }
     /*
@@ -191,5 +120,76 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity getInstance() {
         return instance;
+    }
+
+    public void swap(View v){
+        FragmentManager fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
+        ft.remove(automatView1);
+        ft.remove(automatView2);
+        ft.remove(automatView3);
+        ft.remove(automatView4);
+        ft.commit();
+        fm.executePendingTransactions();
+        ft = fm.beginTransaction();
+        switch(v.getId()){
+            case R.id.Framelayout1:
+                if (ver2.getVisibility() == View.VISIBLE) {
+                    ft.add(R.id.Framelayout1, automatView1);
+                    gor2.setVisibility(View.GONE);
+                    ver2.setVisibility(View.GONE);
+                } else {
+                    gor2.setVisibility(View.VISIBLE);
+                    ver2.setVisibility(View.VISIBLE);
+                    ft.add(R.id.Framelayout1, automatView1);
+                    ft.add(R.id.Framelayout2, automatView2);
+                    ft.add(R.id.Framelayout3, automatView3);
+                    ft.add(R.id.Framelayout4, automatView4);
+                }
+                break;
+            case R.id.Framelayout2:
+                if (ver2.getVisibility() == View.VISIBLE) {
+                    ft.add(R.id.Framelayout2, automatView2);
+                    gor1.setVisibility(View.GONE);
+                    ver2.setVisibility(View.GONE);
+                } else {
+                    gor1.setVisibility(View.VISIBLE);
+                    ver2.setVisibility(View.VISIBLE);
+                    ft.add(R.id.Framelayout1, automatView1);
+                    ft.add(R.id.Framelayout2, automatView2);
+                    ft.add(R.id.Framelayout3, automatView3);
+                    ft.add(R.id.Framelayout4, automatView4);
+                }
+                break;
+            case R.id.Framelayout3:
+                if (ver1.getVisibility() == View.VISIBLE) {
+                    ft.add(R.id.Framelayout3, automatView3);
+                    gor4.setVisibility(View.GONE);
+                    ver1.setVisibility(View.GONE);
+                } else {
+                    gor4.setVisibility(View.VISIBLE);
+                    ver1.setVisibility(View.VISIBLE);
+                    ft.add(R.id.Framelayout1, automatView1);
+                    ft.add(R.id.Framelayout2, automatView2);
+                    ft.add(R.id.Framelayout3, automatView3);
+                    ft.add(R.id.Framelayout4, automatView4);
+                }
+                break;
+            case R.id.Framelayout4:
+                if (ver1.getVisibility() == View.VISIBLE) {
+                    ft.add(R.id.Framelayout4, automatView4);
+                    gor3.setVisibility(View.GONE);
+                    ver1.setVisibility(View.GONE);
+                } else {
+                    gor3.setVisibility(View.VISIBLE);
+                    ver1.setVisibility(View.VISIBLE);
+                    ft.add(R.id.Framelayout1, automatView1);
+                    ft.add(R.id.Framelayout2, automatView2);
+                    ft.add(R.id.Framelayout3, automatView3);
+                    ft.add(R.id.Framelayout4, automatView4);
+                }
+                break;
+        }
+        ft.commit();
     }
 }
